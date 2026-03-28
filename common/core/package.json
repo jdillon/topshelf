@@ -13,12 +13,6 @@
       "import": "./dist/types.js"
     }
   },
-  "scripts": {
-    "build": "tsc --build",
-    "typecheck": "tsc --noEmit",
-    "lint": "eslint src/",
-    "clean": "rm -rf dist"
-  },
   "devDependencies": {
     "@topshelf/eslint-config": "workspace:*",
     "@topshelf/typescript-config": "workspace:*",
