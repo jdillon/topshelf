@@ -3,7 +3,7 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "target": "ES2022",
+    "target": "ES2024",
     "module": "ESNext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,

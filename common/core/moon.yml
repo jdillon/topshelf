@@ -6,11 +6,13 @@ toolchain:
 
 tasks:
   build:
-    command: 'tsc --build'
+    command: 'tsc'
     inputs:
       - '@globs(sources)'
     outputs:
       - 'dist'
+    deps:
+      - '^:build'
   typecheck:
     command: 'tsc --noEmit'
     inputs:

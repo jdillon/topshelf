@@ -3,9 +3,5 @@
   "compilerOptions": {
     "noEmit": true
   },
-  "references": [
-    { "path": "common/core" },
-    { "path": "common/plugins" }
-  ],
   "include": []
 }
