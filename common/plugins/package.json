@@ -1,0 +1,27 @@
+{
+  "name": "@topshelf/plugins",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@topshelf/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@topshelf/eslint-config": "workspace:*",
+    "@topshelf/typescript-config": "workspace:*",
+    "eslint": "^9.28.0",
+    "typescript": "^5.8.0"
+  }
+}

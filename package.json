@@ -1,0 +1,20 @@
+{
+  "name": "@topshelf/monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "cli/*",
+    "desktop/*",
+    "common/*",
+    "tooling/*"
+  ],
+  "scripts": {
+    "build": "moon run :build",
+    "lint": "moon run :lint",
+    "typecheck": "moon run :typecheck",
+    "test": "moon run :test",
+    "clean": "moon run :clean",
+    "dev": "moon run cli:dev"
+  }
+}

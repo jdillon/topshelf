@@ -1,0 +1,28 @@
+language: 'typescript'
+tags: ['app']
+
+toolchain:
+  default: 'bun'
+
+tasks:
+  dev:
+    command: 'bun run src/cli.ts'
+    inputs:
+      - '@globs(sources)'
+    local: true
+  build:
+    command: 'bun build src/cli.ts --outdir=dist --target=bun'
+    inputs:
+      - '@globs(sources)'
+    outputs:
+      - 'dist'
+  typecheck:
+    command: 'tsc --noEmit'
+    inputs:
+      - '@globs(sources)'
+  lint:
+    command: 'eslint src/'
+    inputs:
+      - '@globs(sources)'
+  clean:
+    command: 'rm -rf dist'
