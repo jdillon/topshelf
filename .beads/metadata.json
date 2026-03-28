@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "server",
+  "dolt_database": "jdillon_topshelf",
+  "project_id": "b7cda82f-24f5-4726-b1ee-efccad0137e3"
+}
