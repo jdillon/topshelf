@@ -1,17 +1,20 @@
+id: 'cli'
 language: 'typescript'
 tags: ['app']
 
-toolchain:
-  default: 'bun'
+toolchains:
+  default: ['javascript', 'bun']
 
 tasks:
   dev:
-    command: 'bun run src/cli.ts'
+    command: 'bun run src/main.ts'
     inputs:
       - '@globs(sources)'
-    local: true
+    options:
+      persistent: true
+      runInCI: false
   build:
-    command: 'bun build src/cli.ts --outdir=dist --target=bun'
+    command: 'bun build src/main.ts --outdir=dist --target=bun'
     inputs:
       - '@globs(sources)'
     outputs:

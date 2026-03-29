@@ -4,16 +4,20 @@
   "private": true,
   "type": "module",
   "bin": {
-    "topshelf": "./src/cli.ts"
+    "topshelf": "./src/main.ts"
   },
   "dependencies": {
     "@topshelf/core": "workspace:*",
     "@topshelf/plugins": "workspace:*",
+    "@inquirer/prompts": "^7.0.0",
+    "chalk": "^5.4.0",
+    "cli-table3": "^0.6.5",
     "commander": "^14.0.0"
   },
   "devDependencies": {
     "@topshelf/eslint-config": "workspace:*",
     "@topshelf/typescript-config": "workspace:*",
+    "@types/bun": "latest",
     "eslint": "^9.28.0",
     "typescript": "^5.8.0"
   }

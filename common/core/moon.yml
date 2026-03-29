@@ -1,8 +1,8 @@
 language: 'typescript'
 tags: ['package']
 
-toolchain:
-  default: 'bun'
+toolchains:
+  default: ['javascript', 'bun']
 
 tasks:
   build:

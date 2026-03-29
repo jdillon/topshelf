@@ -1,3 +1,5 @@
+defaultProject: 'cli'
+
 projects:
   - 'cli/*'
   - 'desktop/*'
