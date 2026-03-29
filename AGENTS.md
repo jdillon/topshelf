@@ -8,6 +8,10 @@
 - **Moon owns the build graph** — no `tsc --build`, no tsconfig project references
 - **Library build tasks** use `deps: ['^:build']` for dependency ordering
 
+## Issue Tracking
+
+This project uses beads (`bd`). Follow all beads rules from `~/.agent/rules/beads.md` — especially epic/story/task hierarchy, status management, and closing rules.
+
 ## Commands
 
 ```bash
