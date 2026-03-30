@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
-# Superset workspace setup script
-# nop for now
+set -euo pipefail
+
+# Superset workspace setup — moon manages bun and dependencies
+moon run :typecheck
+moon run :lint

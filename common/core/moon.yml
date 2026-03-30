@@ -1,0 +1,25 @@
+language: 'typescript'
+tags: ['package']
+
+toolchains:
+  default: ['javascript', 'bun']
+
+tasks:
+  build:
+    command: 'tsc'
+    inputs:
+      - '@globs(sources)'
+    outputs:
+      - 'dist'
+    deps:
+      - '^:build'
+  typecheck:
+    command: 'tsc --noEmit'
+    inputs:
+      - '@globs(sources)'
+  lint:
+    command: 'eslint src/'
+    inputs:
+      - '@globs(sources)'
+  clean:
+    command: 'rm -rf dist'

@@ -1,0 +1,11 @@
+{
+  "name": "@topshelf/typescript-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./base.json": "./base.json",
+    "./library.json": "./library.json",
+    "./app.json": "./app.json"
+  }
+}

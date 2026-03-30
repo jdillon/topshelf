@@ -1,0 +1,7 @@
+defaultProject: 'cli'
+
+projects:
+  - 'cli/*'
+  - 'desktop/*'
+  - 'common/*'
+  - 'tooling/*'

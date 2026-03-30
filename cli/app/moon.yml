@@ -1,0 +1,31 @@
+id: 'cli'
+language: 'typescript'
+tags: ['app']
+
+toolchains:
+  default: ['javascript', 'bun']
+
+tasks:
+  dev:
+    command: 'bun run src/main.ts'
+    inputs:
+      - '@globs(sources)'
+    options:
+      persistent: true
+      runInCI: false
+  build:
+    command: 'bun build src/main.ts --outdir=dist --target=bun'
+    inputs:
+      - '@globs(sources)'
+    outputs:
+      - 'dist'
+  typecheck:
+    command: 'tsc --noEmit'
+    inputs:
+      - '@globs(sources)'
+  lint:
+    command: 'eslint src/'
+    inputs:
+      - '@globs(sources)'
+  clean:
+    command: 'rm -rf dist'

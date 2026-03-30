@@ -1,0 +1,7 @@
+{
+  "extends": "@topshelf/typescript-config/base.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": []
+}
