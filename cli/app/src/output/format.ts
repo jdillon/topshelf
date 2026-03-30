@@ -8,6 +8,7 @@ const PLUGIN_ICONS: Record<string, string> = {
   "pnpm": "📦",
   "bun": "🥟",
   "deno": "🦕",
+  "gem": "💎",
   "cargo": "🦀",
   "uv": "🐍",
   "go": "🐹",
