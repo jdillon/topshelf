@@ -9,6 +9,7 @@ import { gemPlugin } from "../src/gem.js";
 import { npmPlugin } from "../src/npm.js";
 import { masPlugin } from "../src/mas.js";
 import { uvPlugin } from "../src/uv.js";
+import { vscodePlugin } from "../src/vscode.js";
 
 // Safe read-only tests — no upgrades, no installs, no side effects
 
@@ -162,5 +163,33 @@ describe("uv plugin", () => {
     if (!(await uvPlugin.isAvailable())) return;
     const outdated = await uvPlugin.listOutdated();
     expect(Array.isArray(outdated)).toBe(true);
+  });
+});
+
+describe("vscode plugin", () => {
+  test("isAvailable returns boolean", async () => {
+    const result = await vscodePlugin.isAvailable();
+    expect(typeof result).toBe("boolean");
+  });
+
+  test("listInstalled returns extensions with publisher.name format", async () => {
+    if (!(await vscodePlugin.isAvailable())) return;
+    const installed = await vscodePlugin.listInstalled();
+    expect(Array.isArray(installed)).toBe(true);
+    expect(installed.length).toBeGreaterThan(0);
+    // Extension IDs should be publisher.name format
+    expect(installed[0]!.name).toContain(".");
+  });
+
+  test("listOutdated queries marketplace and finds outdated", async () => {
+    if (!(await vscodePlugin.isAvailable())) return;
+    const outdated = await vscodePlugin.listOutdated();
+    expect(Array.isArray(outdated)).toBe(true);
+    for (const pkg of outdated) {
+      expect(pkg.name).toContain(".");
+      expect(pkg.installedVersion).toBeTruthy();
+      expect(pkg.latestVersion).toBeTruthy();
+      expect(pkg.installedVersion).not.toBe(pkg.latestVersion);
+    }
   });
 });

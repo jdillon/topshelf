@@ -5,6 +5,7 @@ import { gemPlugin } from "./gem.js";
 import { masPlugin } from "./mas.js";
 import { npmPlugin } from "./npm.js";
 import { uvPlugin } from "./uv.js";
+import { vscodePlugin } from "./vscode.js";
 
 export const allPlugins: PackageManagerPlugin[] = [
   brewPlugin,
@@ -13,6 +14,15 @@ export const allPlugins: PackageManagerPlugin[] = [
   masPlugin,
   npmPlugin,
   uvPlugin,
+  vscodePlugin,
 ];
 
-export { brewPlugin, bunPlugin, gemPlugin, masPlugin, npmPlugin, uvPlugin };
+export {
+  brewPlugin,
+  bunPlugin,
+  gemPlugin,
+  masPlugin,
+  npmPlugin,
+  uvPlugin,
+  vscodePlugin,
+};
