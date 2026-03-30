@@ -11,9 +11,13 @@
     "./types": {
       "types": "./src/types.ts",
       "import": "./src/types.ts"
+    },
+    "./log": {
+      "import": "./src/log.ts"
     }
   },
   "dependencies": {
+    "@logtape/logtape": "^0.12.0",
     "smol-toml": "^1.3.0"
   },
   "devDependencies": {

@@ -10,6 +10,7 @@
     }
   },
   "dependencies": {
+    "@logtape/logtape": "^0.12.0",
     "@topshelf/core": "workspace:*"
   },
   "devDependencies": {

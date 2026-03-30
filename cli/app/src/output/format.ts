@@ -2,11 +2,12 @@ import chalk from "chalk";
 import type { DetectedProcess } from "@topshelf/core";
 
 const PLUGIN_ICONS: Record<string, string> = {
-  "brew-formulae": "🍺",
-  "brew-casks": "🍷",
+  "brew": "🍺",
   "mas": "🍎",
-  "npm-global": "📦",
-  "bun-global": "🥟",
+  "npm": "📦",
+  "pnpm": "📦",
+  "bun": "🥟",
+  "deno": "🦕",
   "cargo": "🦀",
   "uv": "🐍",
   "go": "🐹",

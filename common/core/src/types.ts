@@ -47,11 +47,17 @@ export interface FilterResult {
   skipped: SkippedPackage[];
 }
 
+/** Plugin-specific config passed from the top-level config file */
+export type PluginOptions = Record<string, unknown>;
+
 /** The contract every package manager plugin must implement */
 export interface PackageManagerPlugin {
   id: string;
   displayName: string;
   capabilities: PluginCapabilities;
+
+  /** Receive plugin-specific config from the top-level config file. */
+  configure?(options: PluginOptions): void;
 
   isAvailable(): Promise<boolean>;
   listInstalled(): Promise<PackageInfo[]>;

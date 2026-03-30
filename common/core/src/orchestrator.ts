@@ -51,6 +51,13 @@ export async function runStatus(
   plugins: PackageManagerPlugin[],
   config: TopshelfConfig,
 ): Promise<AggregatedStatus> {
+  // Pass config to plugins
+  for (const plugin of plugins) {
+    if (plugin.configure) {
+      plugin.configure(config.plugins[plugin.id] ?? {});
+    }
+  }
+
   // Prepare all plugins (e.g., brew update)
   await Promise.all(
     plugins

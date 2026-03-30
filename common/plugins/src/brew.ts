@@ -7,19 +7,24 @@ import {
   type PackageInfo,
   type UpgradeResult,
   type DetectedProcess,
+  type PluginOptions,
   type RunningProcess,
 } from "@topshelf/core";
+import { getLogger } from "@logtape/logtape";
 
-const BREW_PATH = "/opt/homebrew/bin/brew";
+const log = getLogger(["topshelf", "brew"]);
+
+const DEFAULT_BREW_PATH = "/opt/homebrew/bin/brew";
+let brewPath = DEFAULT_BREW_PATH;
 
 // --- Internal helpers ---
 
 async function brewExec(args: string[]) {
-  return exec(BREW_PATH, args);
+  return exec(brewPath, args);
 }
 
 async function brewExecStreaming(args: string[]) {
-  return execStreaming(BREW_PATH, args);
+  return execStreaming(brewPath, args);
 }
 
 interface BrewOutdatedFormula {
@@ -97,9 +102,9 @@ const outdatedCache = new Map<string, PackageInfo>();
 
 // --- Plugin implementation ---
 
-export const brewFormulaePlugin: PackageManagerPlugin = {
-  id: "brew-formulae",
-  displayName: "Homebrew Formulae",
+export const brewPlugin: PackageManagerPlugin = {
+  id: "brew",
+  displayName: "Homebrew",
   capabilities: {
     list: true,
     outdated: true,
@@ -110,12 +115,20 @@ export const brewFormulaePlugin: PackageManagerPlugin = {
     streaming: true,
   },
 
+  configure(options: PluginOptions) {
+    if (typeof options.brew_path === "string") {
+      brewPath = options.brew_path;
+      log.info`Using custom brew path: ${brewPath}`;
+    }
+  },
+
   async isAvailable() {
-    return Bun.file(BREW_PATH).exists();
+    return Bun.file(brewPath).exists();
   },
 
   async prepare() {
     if (brewUpdateDone) return;
+    log.info`Running brew update`;
     await brewExec(["update"]);
     brewUpdateDone = true;
   },

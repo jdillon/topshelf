@@ -1,3 +1,6 @@
+// Initialize logging before anything else (reads --debug/--trace from argv)
+import "@topshelf/core/log";
+
 import { Command } from "commander";
 import { statusCommand } from "./commands/status.js";
 import { upgradeCommand } from "./commands/upgrade.js";
@@ -7,7 +10,9 @@ const program = new Command();
 program
   .name("topshelf")
   .description("Package manager manager — upgrade everything, everywhere")
-  .version("0.0.0");
+  .version("0.0.0")
+  .option("--debug", "Debug-level logging")
+  .option("--trace", "Trace-level logging (verbose)");
 
 program
   .command("status")

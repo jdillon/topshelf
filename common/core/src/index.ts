@@ -5,6 +5,7 @@ export type {
   PluginCapabilities,
   SkippedPackage,
   FilterResult,
+  PluginOptions,
   PackageManagerPlugin,
 } from "./types.js";
 
