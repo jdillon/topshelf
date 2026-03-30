@@ -1,4 +1,10 @@
-import { parse } from "smol-toml";
+import { readFile } from "node:fs/promises";
+import { homedir } from "node:os";
+import { join } from "node:path";
+import { parse as parseYaml } from "yaml";
+import { getLogger } from "@logtape/logtape";
+
+const log = getLogger(["topshelf", "config"]);
 
 export interface PluginConfig {
   ignore: string[];
@@ -25,43 +31,64 @@ const DEFAULTS: TopshelfConfig = {
   plugins: {},
 };
 
+const CONFIG_PATHS = [
+  join(homedir(), ".config", "topshelf", "config.yaml"),
+  join(homedir(), ".config", "topshelf", "config.yml"),
+];
+
+function deepMerge(target: any, source: any): any {
+  const result = { ...target };
+  for (const key of Object.keys(source)) {
+    if (
+      source[key] &&
+      typeof source[key] === "object" &&
+      !Array.isArray(source[key]) &&
+      target[key] &&
+      typeof target[key] === "object"
+    ) {
+      result[key] = deepMerge(target[key], source[key]);
+    } else if (source[key] !== undefined) {
+      result[key] = source[key];
+    }
+  }
+  return result;
+}
+
+async function loadConfigFile(): Promise<Partial<TopshelfConfig>> {
+  for (const path of CONFIG_PATHS) {
+    try {
+      const raw = await readFile(path, "utf-8");
+      log.info`Loaded config from ${path}`;
+      return parseYaml(raw) ?? {};
+    } catch {
+      continue;
+    }
+  }
+  return {};
+}
+
+let resolved: TopshelfConfig | null = null;
+
 export function configPath(): string {
-  const home = process.env.HOME ?? "~";
-  return `${home}/.config/topshelf/config.toml`;
+  return CONFIG_PATHS[0]!;
 }
 
 export async function loadConfig(): Promise<TopshelfConfig> {
-  const path = configPath();
-  const file = Bun.file(path);
+  if (resolved) return resolved;
 
-  if (!(await file.exists())) {
-    return DEFAULTS;
-  }
+  const fileConfig = await loadConfigFile();
+  resolved = deepMerge(DEFAULTS, fileConfig) as TopshelfConfig;
 
-  try {
-    const text = await file.text();
-    const raw = parse(text) as Record<string, unknown>;
-
-    const rawSettings = (raw.settings ?? {}) as Record<string, unknown>;
-    const rawPlugins = (raw.plugins ?? {}) as Record<string, Record<string, unknown>>;
-
-    const settings: TopshelfConfig["settings"] = {
-      restart_policy: (rawSettings.restart_policy as TopshelfConfig["settings"]["restart_policy"]) ?? DEFAULTS.settings.restart_policy,
-      disabled_plugins: (rawSettings.disabled_plugins as string[]) ?? DEFAULTS.settings.disabled_plugins,
-      plugin_order: (rawSettings.plugin_order as string[]) ?? DEFAULTS.settings.plugin_order,
-      ignore: (rawSettings.ignore as string[]) ?? DEFAULTS.settings.ignore,
-    };
-
-    const plugins: Record<string, PluginConfig> = {};
-    for (const [id, cfg] of Object.entries(rawPlugins)) {
-      plugins[id] = {
-        ignore: (cfg.ignore as string[]) ?? [],
-        ...cfg,
-      };
+  // Ensure plugins entries have ignore arrays
+  for (const [id, cfg] of Object.entries(resolved.plugins)) {
+    if (!cfg.ignore) {
+      resolved.plugins[id] = { ...cfg, ignore: [] };
     }
-
-    return { settings, plugins };
-  } catch {
-    return DEFAULTS;
   }
+
+  return resolved;
+}
+
+export function resetConfig(): void {
+  resolved = null;
 }
